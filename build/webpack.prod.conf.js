@@ -10,6 +10,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const VRPolyfill = require('webvr-polyfill')
+const PolyFillInjectorPlugin = require('webpack-polyfill-injector')// https://www.npmjs.com/package/webpack-polyfill-injector
 
 const env = require('../config/prod.env')
 
@@ -30,26 +32,31 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': env
+    new webpack.DefinePlugin({ 'process.env': env }),
+    new VRPolyfill({}),
+    new OptimizeCSSPlugin({}),
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: {
+          warnings: false
+        }
+      },
+      sourceMap: config.build.productionSourceMap,
+      parallel: true
     }),
-    // new UglifyJsPlugin({
-    //   uglifyOptions: {
-    //     compress: {
-    //       warnings: false
-    //     }
-    //   },
-    //   sourceMap: config.build.productionSourceMap,
-    //   parallel: true
-    // }),
-    // extract css into its own file
+    new PolyfillInjectorPlugin({
+      polyfills: [
+        'Promise',
+        'Array.prototype.find'
+      ]
+    }),
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[hash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
       // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
       // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
       // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
-      allChunks: true,
+      allChunks: true
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
@@ -84,7 +91,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   ],
   optimization: {
     runtimeChunk: true,
-    splitChunks: { chunks: 'all' },
+    splitChunks: { chunks: 'all' }
   }
 })
 

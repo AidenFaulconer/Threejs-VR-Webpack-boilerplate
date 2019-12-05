@@ -11,12 +11,14 @@ import {
   MeshLambertMaterial,
   Raycaster,
   RingGeometry,
-  Vector3
+  Vector3,
 } from 'three'
 import VRView from './components/view/VRView'
 import { Stats } from './utils/stats'
 import { threeConfig } from './config/threeConfig'
 
+// place extra items in the scene or other custom defined logic
+// WARN: THIS RENDERS THE SCENE TWICE A FRAME FOR EACH EYE, PERFORMANCE IS IMPORTANT
 class MainVR extends VRView {
   constructor (canvas) {
     super(canvas)

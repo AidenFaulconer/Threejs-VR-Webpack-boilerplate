@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@superguigui/wagner": "git+https://github.com/fazeaction/Wagner.git",
+    "@tweenjs/tween.js": "^18.4.2",
     "dat-gui": "^0.5.0",
     "glsl-checker": "^1.0.1",
     "glsl-noise": "0.0.0",

@@ -1,9 +1,8 @@
 import './css/style.css'
-import Main from './js/main'//dont use {main}
+import Main from './js/main'// dont use {main}
 // import { MainVR } from './js/mainVR'
 import Detector from './js/utils/detector'
 import threeConfig from './js/config/threeConfig'
-
 
 // eslint-disable-next-line
 //entry point for webpack to build from webpack
@@ -22,8 +21,15 @@ function init () {
     Detector.addGetWebGLMessage()
   } else {
     const canvas = document.getElementById('canvas')// TODO: dynamically render vr mode rather than have it fixed at start
+
     new Main(canvas)// VR mode is currently unavailble with the current setup
   }// threeConfig.isVR ? MainVR(container) :
 }
 init()
 // window.addEventListener('close',()=>print('closing canvas'))//delete allocated memory to avoid side effects
+
+// TODO:
+// add a library of shaders for further configuration
+// add es6 post processing modules
+// ass a vr manager to reconfigure and handle a change from vr to normality
+// https://github.com/abberg/three-volumetric-light/blob/master/advanced/main.js
